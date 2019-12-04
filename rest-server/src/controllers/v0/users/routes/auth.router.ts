@@ -31,7 +31,7 @@ function generateJWT(user: User): string {
     return jwt.sign(user, config.jwt.secret);
 }
 
-export function requireAuth(req: Request, res: Response, next: NextFunction) {
+export function requireAuth(req: Request, res: Response, next: NextFunction) {    
     if (!req.headers || !req.headers.authorization){
         return res.status(401).send({ message: 'No authorization headers.' });
     }
