@@ -31,7 +31,7 @@ function generateJWT(user: User): string {
     return jwt.sign(user, config.jwt.secret);
 }
 
-export function requireAuth(req: Request, res: Response, next: NextFunction) {
+export function requireAuth(req: Request, res: Response, next: NextFunction) {    
     if (!req.headers || !req.headers.authorization){
         return res.status(401).send({ message: 'No authorization headers.' });
     }
@@ -85,7 +85,7 @@ router.post('/login', async (req: Request, res: Response) => {
     }
 
     // Generate JWT
-    const jwt = generateJWT(user);
+    const jwt = generateJWT(user.toJSON());
 
     res.status(200).send({ auth: true, token: jwt, user: user.short()});
 });
@@ -126,7 +126,7 @@ router.post('/', async (req: Request, res: Response) => {
     }
 
     // Generate JWT
-    const jwt = generateJWT(savedUser);
+    const jwt = generateJWT(savedUser.toJSON());
 
     res.status(201).send({token: jwt, user: savedUser.short()});
 });
